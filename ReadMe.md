@@ -72,22 +72,22 @@ export default App = () => {
 
 ### ListView
 
-| Prop             | Description           | Type     | Default      |
-| ---------------- | --------------------- | -------- | ------------ |
-| **`data`**       | Array of nested items | Array    | **Required** |
-| **`onClick`**    | Return clicked item   | Function | Not Require  |
-| **`leftImage`**  | Left side image       |          | Not Require  |
-| **`rightImage`** | Right side image      |          | Not Require  |
+| Prop           | Description           | Type     | Default      |
+| -------------- | --------------------- | -------- | ------------ |
+| **data**       | Array of nested items | Array    | **Required** |
+| **onClick**    | Return clicked item   | Function | Not Require  |
+| **leftImage**  | Left side image       |          | Not Require  |
+| **rightImage** | Right side image      |          | Not Require  |
 
 ### Style Props
 
-| Prop                         | Description                    | Type   |
-| ---------------------------- | ------------------------------ | ------ |
-| **`containerStyle`**         | Container Style                | Object |
-| **`listContainerStyle`**     | List Container Style           | Object |
-| **`listItemStyle`**          | List Item Style                | Object |
-| **`textStyle`**              | List Item Text Style           | Object |
-| **`leftImageStyle`**         | Left side image style          | Object |
-| **`textStyle`**              | List Item Text Style           | Object |
-| **`rightImageWrapperStyle`** | Right side image wrapper style | Object |
-| **`rightImageStyle`**        | Right side image style         | Object |
+| Prop                       | Description                    | Type   |
+| -------------------------- | ------------------------------ | ------ |
+| **containerStyle**         | Container Style                | Object |
+| **listContainerStyle**     | List Container Style           | Object |
+| **listItemStyle**          | List Item Style                | Object |
+| **textStyle**              | List Item Text Style           | Object |
+| **leftImageStyle**         | Left side image style          | Object |
+| **textStyle**              | List Item Text Style           | Object |
+| **rightImageWrapperStyle** | Right side image wrapper style | Object |
+| **rightImageStyle**        | Right side image style         | Object |
