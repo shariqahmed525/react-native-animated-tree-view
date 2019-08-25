@@ -1,0 +1,27 @@
+{
+  "name": "react-native-animated-tree-view",
+  "version": "0.1.1",
+  "description": "A react native tree view component",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shariqahmed1/react-native-animated-tree-view.git"
+  },
+  "keywords": [
+    "react-native-tree-view",
+    "react-native-sublist",
+    "react-native-sublist-view",
+    "react-native-nested-list-view",
+    "react-native-animated-list-view",
+    "react-native-recursive-list"
+  ],
+  "author": "Shariq Ahmed <shariqahmed525@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shariqahmed1/react-native-animated-tree-view/issues"
+  },
+  "homepage": "https://github.com/shariqahmed1/react-native-animated-tree-view#readme"
+}

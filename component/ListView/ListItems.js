@@ -1,26 +1,27 @@
-import React from 'react';
-import {View, Image, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import React from "react";
+import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 export default ListItem = props => {
   const {
-    listItemContainer,
+    listItemStyle,
     onPress,
-    leftImageStyles,
+    leftImageStyle,
     leftImage,
     text,
     textStyle,
     rightImage,
     rightImageStyle,
-    rightImageWrapperStyle,
+    rightImageWrapperStyle
   } = props;
   return (
     <TouchableOpacity
-      style={listItemContainer || styles.container}
+      style={listItemStyle || styles.container}
       activeOpacity={0.5}
-      onPress={onPress}>
+      onPress={onPress}
+    >
       {leftImage && (
         <Image
-          style={leftImageStyles || {width: 20, height: 20}}
+          style={leftImageStyle || { width: 20, height: 20 }}
           source={leftImage}
           resizeMode="contain"
         />
@@ -29,7 +30,7 @@ export default ListItem = props => {
       {rightImage && (
         <View style={rightImageWrapperStyle || styles.rightImageWrapperStyle}>
           <Image
-            style={rightImageStyle || {width: 15, height: 15}}
+            style={rightImageStyle || { width: 15, height: 15 }}
             source={rightImage}
             resizeMode="contain"
           />
@@ -42,20 +43,20 @@ export default ListItem = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingVertical: 10,
-    alignItems: 'center',
+    alignItems: "center"
   },
   text: {
     fontSize: 17,
-    fontWeight: '500',
-    color: '#000',
+    fontWeight: "500",
+    color: "#000",
     marginLeft: 10,
-    marginRight: 10,
+    marginRight: 10
   },
   rightImageWrapperStyle: {
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
     flex: 1,
-    paddingRight: 10,
-  },
+    paddingRight: 10
+  }
 });

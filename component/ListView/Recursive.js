@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import {
   View,
   ScrollView,
   UIManager,
   LayoutAnimation,
-  StyleSheet,
-} from 'react-native';
-import ListItems from './ListItems';
-import PropTypes from 'prop-types';
+  StyleSheet
+} from "react-native";
+import ListItems from "./ListItems";
+import PropTypes from "prop-types";
 
 export default Apps = props => {
   const [selectedOptions, setSelectedOptions] = useState({});
@@ -16,38 +16,38 @@ export default Apps = props => {
     UIManager.setLayoutAnimationEnabledExperimental(true);
 
   const selectAccountFunc = (selectedOptions, option) => {
-    if (option.subAccounts) {
+    if (option.items) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      setSelectedOptions({...selectedOptions});
+      setSelectedOptions({ ...selectedOptions });
     } else {
       props.onClick && props.onClick(option);
     }
   };
 
   const {
-    mainListViewStyle,
+    listContainerStyle,
     data,
     containerStyle,
     rightImage,
     rightImageStyle,
     rightImageWrapperStyle,
-    leftImageStyles,
+    leftImageStyle,
     leftImage,
-    listItemContainer,
-    textStyle,
+    listItemStyle,
+    textStyle
   } = props;
 
   let checkType = data ? (data instanceof Array ? data : []) : [];
   return (
     <ScrollView contentContainerStyle={containerStyle || styles.containerStyle}>
       <OptionsList
-        mainListViewStyle={mainListViewStyle || styles.mainListViewStyle}
+        listContainerStyle={listContainerStyle || styles.listContainerStyle}
         rightImage={rightImage}
         rightImageStyle={rightImageStyle}
         rightImageWrapperStyle={rightImageWrapperStyle}
-        leftImageStyles={leftImageStyles}
+        leftImageStyle={leftImageStyle}
         leftImage={leftImage}
-        listItemContainer={listItemContainer || styles.listItemContainer}
+        listItemStyle={listItemStyle || styles.listItemStyle}
         textStyle={textStyle}
         options={checkType}
         onChange={selectAccountFunc}
@@ -62,14 +62,14 @@ const OptionsList = ({
   options,
   selectedOptions,
   onChange,
-  mainListViewStyle,
+  listContainerStyle,
   rightImage,
   rightImageStyle,
   rightImageWrapperStyle,
-  leftImageStyles,
+  leftImageStyle,
   leftImage,
-  listItemContainer,
-  textStyle,
+  listItemStyle,
+  textStyle
 }) => {
   const handleParentClicked = option => {
     if (selectedOptions[option.value]) {
@@ -88,18 +88,18 @@ const OptionsList = ({
   return (
     <View>
       {options.map((option, k) => (
-        <View key={k} style={{...mainListViewStyle}}>
+        <View key={k} style={{ ...listContainerStyle }}>
           <List
             index={k}
             selected={selectedOptions[option.value]}
             label={option.name}
-            subAccounts={option.subAccounts}
+            items={option.items}
             rightImage={rightImage}
             rightImageStyle={rightImageStyle}
             rightImageWrapperStyle={rightImageWrapperStyle}
-            leftImageStyles={leftImageStyles}
+            leftImageStyle={leftImageStyle}
             leftImage={leftImage}
-            listItemContainer={listItemContainer}
+            listItemStyle={listItemStyle}
             textStyle={textStyle}
             onChange={() => {
               handleParentClicked(option);
@@ -107,15 +107,16 @@ const OptionsList = ({
           />
           {/* Base Case */}
 
-          {option.subAccounts &&
-            option.subAccounts.length > 0 &&
+          {option.items &&
+            option.items.length > 0 &&
             selectedOptions[option.value] && (
               <View
                 style={{
-                  marginStart: 15,
-                }}>
+                  marginStart: 15
+                }}
+              >
                 <OptionsList
-                  options={option.subAccounts}
+                  options={option.items}
                   selectedOptions={selectedOptions[option.value]}
                   onChange={(subSelections, opt) => {
                     handleSubOptionsListChange(subSelections, opt);
@@ -123,12 +124,12 @@ const OptionsList = ({
                   rightImage={rightImage}
                   rightImageStyle={rightImageStyle}
                   rightImageWrapperStyle={rightImageWrapperStyle}
-                  leftImageStyles={leftImageStyles}
+                  leftImageStyle={leftImageStyle}
                   leftImage={leftImage}
-                  listItemContainer={listItemContainer}
+                  listItemStyle={listItemStyle}
                   textStyle={textStyle}
-                  mainListViewStyle={{
-                    ...mainListViewStyle,
+                  listContainerStyle={{
+                    ...listContainerStyle
                   }}
                 />
               </View>
@@ -144,36 +145,36 @@ const List = ({
   selected,
   label,
   onChange,
-  subAccounts,
+  items,
   value,
-  mainListViewStyle,
+  listContainerStyle,
   rightImage,
   rightImageStyle,
   rightImageWrapperStyle,
-  leftImageStyles,
+  leftImageStyle,
   leftImage,
-  listItemContainer,
-  textStyle,
+  listItemStyle,
+  textStyle
 }) => {
   return (
-    <View style={mainListViewStyle}>
+    <View style={listContainerStyle}>
       <ListItems
         leftImage={
           leftImage || {
-            uri: 'https://image.flaticon.com/icons/png/512/55/55089.png',
+            uri: "https://image.flaticon.com/icons/png/512/55/55089.png"
           }
         }
-        onPress={() => onChange(!selected, label, value, subAccounts)}
+        onPress={() => onChange(!selected, label, value, items)}
         text={label}
         rightImageStyle={rightImageStyle}
         rightImageWrapperStyle={rightImageWrapperStyle}
-        leftImageStyles={leftImageStyles}
-        listItemContainer={{...listItemContainer}}
+        leftImageStyle={leftImageStyle}
+        listItemStyle={{ ...listItemStyle }}
         textStyle={textStyle}
         rightImage={
-          subAccounts &&
+          items &&
           (rightImage || {
-            uri: 'http://www.pngmart.com/files/3/Down-Arrow-PNG-HD.png',
+            uri: "http://www.pngmart.com/files/3/Down-Arrow-PNG-HD.png"
           })
         }
       />
@@ -184,21 +185,21 @@ const List = ({
 const styles = StyleSheet.create({
   containerStyle: {
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingVertical: 5
   },
-  listItemContainer: {
+  listItemStyle: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingVertical: 10,
-    alignItems: 'center',
+    alignItems: "center"
   },
-  mainListViewStyle: {
-    borderTopColor: 'gray',
+  listContainerStyle: {
+    borderTopColor: "gray",
     borderTopWidth: 1,
-    flex: 1,
-  },
+    flex: 1
+  }
 });
 
 Apps.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  data: PropTypes.arrayOf(PropTypes.any).isRequired
 };
