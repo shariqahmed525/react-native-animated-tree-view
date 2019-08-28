@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   View,
   ScrollView,
   UIManager,
   LayoutAnimation,
-  StyleSheet
-} from "react-native";
-import ListItems from "./ListItems";
-import PropTypes from "prop-types";
+  StyleSheet,
+} from 'react-native';
+import ListItems from './ListItems';
+import PropTypes from 'prop-types';
 
 export default Apps = props => {
   const [selectedOptions, setSelectedOptions] = useState({});
@@ -15,8 +15,20 @@ export default Apps = props => {
   UIManager.setLayoutAnimationEnabledExperimental &&
     UIManager.setLayoutAnimationEnabledExperimental(true);
 
+  const {
+    containerStyle,
+    listContainerStyle,
+    listItemStyle,
+    data,
+    displayNodeName,
+    childrenNodeName,
+    ...rest
+  } = props;
+  let dNN = displayNodeName ? displayNodeName : 'name';
+  let cNN = childrenNodeName ? childrenNodeName : 'items';
+
   const selectAccountFunc = (selectedOptions, option) => {
-    if (option.items) {
+    if (option[cNN]) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setSelectedOptions({ ...selectedOptions });
     } else {
@@ -24,34 +36,18 @@ export default Apps = props => {
     }
   };
 
-  const {
-    listContainerStyle,
-    data,
-    containerStyle,
-    rightImage,
-    rightImageStyle,
-    rightImageWrapperStyle,
-    leftImageStyle,
-    leftImage,
-    listItemStyle,
-    textStyle
-  } = props;
-
   let checkType = data ? (data instanceof Array ? data : []) : [];
   return (
     <ScrollView contentContainerStyle={containerStyle || styles.containerStyle}>
       <OptionsList
-        listContainerStyle={listContainerStyle || styles.listContainerStyle}
-        rightImage={rightImage}
-        rightImageStyle={rightImageStyle}
-        rightImageWrapperStyle={rightImageWrapperStyle}
-        leftImageStyle={leftImageStyle}
-        leftImage={leftImage}
-        listItemStyle={listItemStyle || styles.listItemStyle}
-        textStyle={textStyle}
         options={checkType}
-        onChange={selectAccountFunc}
+        listContainerStyle={listContainerStyle || styles.listContainerStyle}
+        listItemStyle={listItemStyle || styles.listItemStyle}
         selectedOptions={selectedOptions}
+        onChange={selectAccountFunc}
+        displayNodeName={dNN}
+        childrenNodeName={cNN}
+        {...rest}
       />
     </ScrollView>
   );
@@ -63,14 +59,9 @@ const OptionsList = ({
   selectedOptions,
   onChange,
   listContainerStyle,
-  rightImage,
-  rightImageStyle,
-  rightImageWrapperStyle,
-  leftImageStyle,
-  leftImage,
-  listItemStyle,
-  textStyle
+  ...rest
 }) => {
+  const { displayNodeName, childrenNodeName } = rest;
   const handleParentClicked = option => {
     if (selectedOptions[option.value]) {
       delete selectedOptions[option.value];
@@ -92,45 +83,32 @@ const OptionsList = ({
           <List
             index={k}
             selected={selectedOptions[option.value]}
-            label={option.name}
-            items={option.items}
-            rightImage={rightImage}
-            rightImageStyle={rightImageStyle}
-            rightImageWrapperStyle={rightImageWrapperStyle}
-            leftImageStyle={leftImageStyle}
-            leftImage={leftImage}
-            listItemStyle={listItemStyle}
-            textStyle={textStyle}
+            label={option[displayNodeName]}
+            items={option[childrenNodeName]}
             onChange={() => {
               handleParentClicked(option);
             }}
+            {...rest}
           />
-          {/* Base Case */}
 
-          {option.items &&
-            option.items.length > 0 &&
+          {/* Recursive Case */}
+          {option[childrenNodeName] &&
+            option[childrenNodeName].length > 0 &&
             selectedOptions[option.value] && (
               <View
                 style={{
-                  marginStart: 15
-                }}
-              >
+                  marginStart: 15,
+                }}>
                 <OptionsList
-                  options={option.items}
+                  options={option[childrenNodeName]}
                   selectedOptions={selectedOptions[option.value]}
                   onChange={(subSelections, opt) => {
                     handleSubOptionsListChange(subSelections, opt);
                   }}
-                  rightImage={rightImage}
-                  rightImageStyle={rightImageStyle}
-                  rightImageWrapperStyle={rightImageWrapperStyle}
-                  leftImageStyle={leftImageStyle}
-                  leftImage={leftImage}
-                  listItemStyle={listItemStyle}
-                  textStyle={textStyle}
                   listContainerStyle={{
-                    ...listContainerStyle
+                    ...listContainerStyle,
                   }}
+                  {...rest}
                 />
               </View>
             )}
@@ -154,14 +132,14 @@ const List = ({
   leftImageStyle,
   leftImage,
   listItemStyle,
-  textStyle
+  textStyle,
 }) => {
   return (
     <View style={listContainerStyle}>
       <ListItems
         leftImage={
           leftImage || {
-            uri: "https://image.flaticon.com/icons/png/512/55/55089.png"
+            uri: 'https://image.flaticon.com/icons/png/512/55/55089.png',
           }
         }
         onPress={() => onChange(!selected, label, value, items)}
@@ -174,7 +152,7 @@ const List = ({
         rightImage={
           items &&
           (rightImage || {
-            uri: "http://www.pngmart.com/files/3/Down-Arrow-PNG-HD.png"
+            uri: 'http://www.pngmart.com/files/3/Down-Arrow-PNG-HD.png',
           })
         }
       />
@@ -185,21 +163,21 @@ const List = ({
 const styles = StyleSheet.create({
   containerStyle: {
     paddingHorizontal: 10,
-    paddingVertical: 5
+    paddingVertical: 5,
   },
   listItemStyle: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingVertical: 10,
-    alignItems: "center"
+    alignItems: 'center',
   },
   listContainerStyle: {
-    borderTopColor: "gray",
+    borderTopColor: 'gray',
     borderTopWidth: 1,
-    flex: 1
-  }
+    flex: 1,
+  },
 });
 
 Apps.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.any).isRequired
+  data: PropTypes.arrayOf(PropTypes.any).isRequired,
 };

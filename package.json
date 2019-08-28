@@ -1,6 +1,6 @@
 {
   "name": "react-native-animated-tree-view",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A react native tree view component",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,8 @@
     "url": "git+https://github.com/shariqahmed1/react-native-animated-tree-view.git"
   },
   "keywords": [
+    "react",
+    "react-native",
     "react-native-tree-view",
     "react-native-sublist",
     "react-native-sublist-view",

@@ -15,11 +15,13 @@ A React Native animated tree view component
 
 ![react-native-animated-tree-view](https://media.giphy.com/media/kgZdimnRjNLVdbXhUI/giphy.gif)
 
-## Usage
+## Installation
 
 ```
 yarn add react-native-animated-tree-view
 ```
+
+## Usage
 
 Firstly, you have to define your data. Example:
 
@@ -56,7 +58,7 @@ const data = [
 ];
 ```
 
-It is required that each node on the tree have its own value key. The tree nodes are defined in the items key. They are an array of objects, following the same structure as the parent.
+It is required that each node on the tree have its own value key which name should be "value". The tree nodes are defined in the items key. They are an array of objects, following the same structure as the parent.
 
 After defining data, mount the component. Example:
 
@@ -72,12 +74,14 @@ export default App = () => {
 
 ### ListView
 
-| Prop           | Description           | Type     | Default      |
-| -------------- | --------------------- | -------- | ------------ |
-| **data**       | Array of nested items | Array    | **Required** |
-| **onClick**    | Return clicked item   | Function | Not Require  |
-| **leftImage**  | Left side image       |          | Not Require  |
-| **rightImage** | Right side image      |          | Not Require  |
+| Prop                 | Description                                                                                      | Type     | Default      |
+| -------------------- | ------------------------------------------------------------------------------------------------ | -------- | ------------ |
+| **data**             | Array of nested items                                                                            | Array    | **Required** |
+| **onClick**          | Return clicked item                                                                              | Function | Not Require  |
+| **displayNodeName**  | Takes a node to render a display text                                                            | String   | name         |
+| **childrenNodeName** | Node to determine in a node where are the children, by default it will try to find them in items | String   | items        |
+| **leftImage**        | Left side image                                                                                  |          | Not Require  |
+| **rightImage**       | Right side image                                                                                 |          | Not Require  |
 
 ### Style Props
 
@@ -88,6 +92,5 @@ export default App = () => {
 | **listItemStyle**          | List Item Style                | Object |
 | **textStyle**              | List Item Text Style           | Object |
 | **leftImageStyle**         | Left side image style          | Object |
-| **textStyle**              | List Item Text Style           | Object |
 | **rightImageWrapperStyle** | Right side image wrapper style | Object |
 | **rightImageStyle**        | Right side image style         | Object |
