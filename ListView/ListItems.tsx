@@ -1,29 +1,24 @@
 import React, { CSSProperties } from "react";
-import { View, Image, Text, TouchableOpacity, StyleSheet, StyleProp, ImageStyle, ImageSourcePropType, GestureResponderEvent } from "react-native";
+import { View, Image, Text, TouchableOpacity, StyleSheet, ImageSourcePropType, GestureResponderEvent, ViewStyle, TextStyle } from "react-native";
 
 type ListItemProps = {
   listItemStyle:Element,
   onPress:(event: GestureResponderEvent) => void,
-  leftImageStyle:StyleProp<ImageStyle>,
-  leftImage:ImageSourcePropType,
+  leftElement:Element,
   text:string,
-  textStyle:StyleProp<ImageStyle>,
-  rightImage:ImageSourcePropType,
-  rightImageStyle:StyleProp<ImageStyle>,
-  rightImageWrapperStyle:StyleProp<ImageStyle>,
+  textStyle:TextStyle,
+  rightElement:ImageSourcePropType,
+  rightElementWrapperStyle?:ViewStyle,
 }
 
 export default function ListItem(props:ListItemProps) {
   const {
     listItemStyle,
     onPress,
-    leftImageStyle,
-    leftImage,
+    leftElement,
     text,
     textStyle,
-    rightImage,
-    rightImageStyle,
-    rightImageWrapperStyle
+    rightElement,
   } = props;
   return (
     <TouchableOpacity
@@ -31,23 +26,9 @@ export default function ListItem(props:ListItemProps) {
       activeOpacity={0.5}
       onPress={onPress}
     >
-      {leftImage && (
-        <Image
-          style={leftImageStyle || { width: 20, height: 20 }}
-          source={leftImage}
-          resizeMode="contain"
-        />
-      )}
+      {leftElement}
       <Text style={textStyle || styles.text}>{text}</Text>
-      {rightImage && (
-        <View style={rightImageWrapperStyle || styles.rightImageWrapperStyle}>
-          <Image
-            style={rightImageStyle || { width: 15, height: 15 }}
-            source={rightImage}
-            resizeMode="contain"
-          />
-        </View>
-      )}
+      {rightElement}
     </TouchableOpacity>
   );
 };
@@ -66,9 +47,4 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10
   },
-  rightImageWrapperStyle: {
-    alignItems: "flex-end",
-    flex: 1,
-    paddingRight: 10
-  }
 });

@@ -5,21 +5,28 @@ import {
   UIManager,
   LayoutAnimation,
   StyleSheet,
-  StyleProp,
   ViewStyle,
+  Image,
 } from 'react-native';
 import ListItems from './ListItems';
 import PropTypes from 'prop-types';
 
+export type TreeNode = {
+  value:string,
+  name:string,
+  items?:TreeNode[],
+  onPress?:any,
+}
+
 type AppsProps = {
-  containerStyle?:StyleProp<ViewStyle>,
+  containerStyle?:ViewStyle,
   listContainerStyle?:CSSProperties,
   listItemStyle?:CSSProperties,
-  data:any,
+  data:TreeNode[],
   displayNodeName?:string,
   childrenNodeName?:string,
+  onClick?:Function,
   rest?:any,
-  onClick?:any,
 }
 
 export default function Apps(props:AppsProps) {
@@ -139,34 +146,45 @@ const List = ({
   items,
   value,
   listContainerStyle,
+  rightElement,
+  rightElementWrapperStyle,
+  leftElement,
+  listItemStyle,
+  textStyle,
   rightImage,
   rightImageStyle,
   rightImageWrapperStyle,
   leftImageStyle,
   leftImage,
-  listItemStyle,
-  textStyle,
 }:any) => {
   return (
     <View style={listContainerStyle}>
       <ListItems
-        leftImage={
-          leftImage || {
-            uri: 'https://image.flaticon.com/icons/png/512/55/55089.png',
-          }
+        leftElement={
+          leftElement || 
+            <Image
+              style={rightImageStyle || { width: 20, height: 20 }}
+              source={{uri:('https://image.flaticon.com/icons/png/512/55/55089.png'|| leftImage)}}
+              resizeMode="contain"
+            />
         }
         onPress={() => onChange(!selected, label, value, items)}
         text={label}
-        rightImageStyle={rightImageStyle}
-        rightImageWrapperStyle={rightImageWrapperStyle}
-        leftImageStyle={leftImageStyle}
         listItemStyle={{ ...listItemStyle }}
         textStyle={textStyle}
-        rightImage={
+        rightElement={
           items &&
-          (rightImage || {
-            uri: 'http://www.pngmart.com/files/3/Down-Arrow-PNG-HD.png',
-          })
+          (rightElement || 
+            <View style={rightImageWrapperStyle || rightElementWrapperStyle || styles.rightElementWrapperStyle}>
+              {rightElement || 
+              <Image
+                style={leftImageStyle || { width: 15, height: 15 }}
+                source={{uri:('http://www.pngmart.com/files/3/Down-Arrow-PNG-HD.png' || rightImage)}}
+                resizeMode="contain"
+              />
+              }
+            </View>
+            )
         }
       />
     </View>
@@ -189,6 +207,11 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     flex: 1,
   },
+  rightElementWrapperStyle: {
+    alignItems: "flex-end",
+    flex: 1,
+    paddingRight: 10
+  }
 });
 
 Apps.propTypes = {

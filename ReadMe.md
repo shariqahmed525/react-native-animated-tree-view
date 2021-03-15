@@ -77,11 +77,13 @@ export default App = () => {
 | Prop                 | Description                                                                                      | Type     | Default      |
 | -------------------- | ------------------------------------------------------------------------------------------------ | -------- | ------------ |
 | **data**             | Array of nested items                                                                            | Array    | **Required** |
-| **onClick**          | Return clicked item                                                                              | Function | Not Require  |
+| **onClick**          | Returns clicked item                                                                              | Function | Not Required  |
 | **displayNodeName**  | Takes a node to render a display text                                                            | String   | name         |
 | **childrenNodeName** | Node to determine in a node where are the children, by default it will try to find them in items | String   | items        |
-| **leftImage**        | Left side image                                                                                  |          | Not Require  |
-| **rightImage**       | Right side image                                                                                 |          | Not Require  |
+| **leftImage**        | Left side image                                                                                  |          | Not Required  |
+| **rightImage**       | Right side image                                                                                 |          | Not Required  |
+| **leftElement**        | repalce left side image with an element, ex: an Icon                                                                                  |          | Not Required  |
+| **rightElement**       | repalce right side image with an element                                                                                 |          | Not Required  |
 
 ### Style Props
 
