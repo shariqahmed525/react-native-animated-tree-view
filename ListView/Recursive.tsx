@@ -1,15 +1,28 @@
-import React, { useState } from 'react';
+import React, { CSSProperties, useState } from 'react';
 import {
   View,
   ScrollView,
   UIManager,
   LayoutAnimation,
   StyleSheet,
+  StyleProp,
+  ViewStyle,
 } from 'react-native';
 import ListItems from './ListItems';
 import PropTypes from 'prop-types';
 
-export default Apps = props => {
+type AppsProps = {
+  containerStyle?:StyleProp<ViewStyle>,
+  listContainerStyle?:CSSProperties,
+  listItemStyle?:CSSProperties,
+  data:any,
+  displayNodeName?:string,
+  childrenNodeName?:string,
+  rest?:any,
+  onClick?:any,
+}
+
+export default function Apps(props:AppsProps) {
   const [selectedOptions, setSelectedOptions] = useState({});
 
   UIManager.setLayoutAnimationEnabledExperimental &&
@@ -27,7 +40,7 @@ export default Apps = props => {
   let dNN = displayNodeName ? displayNodeName : 'name';
   let cNN = childrenNodeName ? childrenNodeName : 'items';
 
-  const selectAccountFunc = (selectedOptions, option) => {
+  const selectAccountFunc = (selectedOptions:any, option:any) => {
     if (option[cNN]) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setSelectedOptions({ ...selectedOptions });
@@ -60,9 +73,9 @@ const OptionsList = ({
   onChange,
   listContainerStyle,
   ...rest
-}) => {
+}:any) => {
   const { displayNodeName, childrenNodeName } = rest;
-  const handleParentClicked = option => {
+  const handleParentClicked = (option:any) => {
     if (selectedOptions[option.value]) {
       delete selectedOptions[option.value];
     } else {
@@ -71,14 +84,14 @@ const OptionsList = ({
     onChange(selectedOptions, option);
   };
 
-  const handleSubOptionsListChange = (subSelections, option) => {
+  const handleSubOptionsListChange = (subSelections:any, option:any) => {
     selectedOptions[option.value] = subSelections;
     onChange(selectedOptions, option);
   };
 
   return (
     <View>
-      {options.map((option, k) => (
+      {options.map((option:any, k:any) => (
         <View key={k} style={{ ...listContainerStyle }}>
           <List
             index={k}
@@ -102,7 +115,7 @@ const OptionsList = ({
                 <OptionsList
                   options={option[childrenNodeName]}
                   selectedOptions={selectedOptions[option.value]}
-                  onChange={(subSelections, opt) => {
+                  onChange={(subSelections:any, opt:any) => {
                     handleSubOptionsListChange(subSelections, opt);
                   }}
                   listContainerStyle={{
@@ -133,7 +146,7 @@ const List = ({
   leftImage,
   listItemStyle,
   textStyle,
-}) => {
+}:any) => {
   return (
     <View style={listContainerStyle}>
       <ListItems

@@ -1,7 +1,19 @@
-import React from "react";
-import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
+import React, { CSSProperties } from "react";
+import { View, Image, Text, TouchableOpacity, StyleSheet, StyleProp, ImageStyle, ImageSourcePropType, GestureResponderEvent } from "react-native";
 
-export default ListItem = props => {
+type ListItemProps = {
+  listItemStyle:Element,
+  onPress:(event: GestureResponderEvent) => void,
+  leftImageStyle:StyleProp<ImageStyle>,
+  leftImage:ImageSourcePropType,
+  text:string,
+  textStyle:StyleProp<ImageStyle>,
+  rightImage:ImageSourcePropType,
+  rightImageStyle:StyleProp<ImageStyle>,
+  rightImageWrapperStyle:StyleProp<ImageStyle>,
+}
+
+export default function ListItem(props:ListItemProps) {
   const {
     listItemStyle,
     onPress,
