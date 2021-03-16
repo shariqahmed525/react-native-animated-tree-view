@@ -9,7 +9,6 @@ import {
   Image,
 } from 'react-native';
 import ListItems from './ListItems';
-import PropTypes from 'prop-types';
 
 export type TreeNode = {
   value:string,
@@ -18,7 +17,7 @@ export type TreeNode = {
   onPress?:any,
 }
 
-type AppsProps = {
+type TreeViewProps = {
   containerStyle?:ViewStyle,
   listContainerStyle?:CSSProperties,
   listItemStyle?:CSSProperties,
@@ -26,10 +25,11 @@ type AppsProps = {
   displayNodeName?:string,
   childrenNodeName?:string,
   onClick?:Function,
+  onPress?:Function,
   rest?:any,
 }
 
-export default function Apps(props:AppsProps) {
+export default function TreeView(props:TreeViewProps) {
   const [selectedOptions, setSelectedOptions] = useState({});
 
   UIManager.setLayoutAnimationEnabledExperimental &&
@@ -48,6 +48,7 @@ export default function Apps(props:AppsProps) {
   let cNN = childrenNodeName ? childrenNodeName : 'items';
 
   const selectAccountFunc = (selectedOptions:any, option:any) => {
+    props.onPress && props.onPress(option);
     if (option[cNN]) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setSelectedOptions({ ...selectedOptions });
@@ -213,7 +214,3 @@ const styles = StyleSheet.create({
     paddingRight: 10
   }
 });
-
-Apps.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.any).isRequired,
-};
