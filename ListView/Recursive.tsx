@@ -196,7 +196,7 @@ const List = ({
         listItemStyle={{ ...listItemStyle }}
         textStyle={textStyle}
         rightElement={
-          items &&
+          items?.length > 0 &&
           (<View style={rightImageWrapperStyle || rightElementWrapperStyle || styles.rightElementWrapperStyle}>
               {rightElement || 
               <Image
