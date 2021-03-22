@@ -7,6 +7,10 @@ import {
   StyleSheet,
   ViewStyle,
   Image,
+  ViewProps,
+  ImageSourcePropType,
+  ImageStyle,
+  TextStyle,
 } from 'react-native';
 import ListItems from './ListItems';
 
@@ -139,6 +143,24 @@ const OptionsList = ({
   );
 };
 
+type ListProps = {
+  selected:boolean,
+  label:string,
+  onChange:Function,
+  items:TreeNode[],
+  value:any,
+  listContainerStyle:ViewProps,
+  rightElement:Element,
+  rightElementWrapperStyle:ViewStyle,
+  leftElement:Element,
+  listItemStyle:CSSProperties,
+  textStyle:TextStyle,
+  rightImage:ImageSourcePropType,
+  rightImageStyle:ImageStyle,
+  rightImageWrapperStyle:ViewStyle,
+  leftImageStyle:ImageStyle,
+  leftImage:ImageSourcePropType,
+}
 // Dumb List component, completly controlled by parent
 const List = ({
   selected,
@@ -157,14 +179,14 @@ const List = ({
   rightImageWrapperStyle,
   leftImageStyle,
   leftImage,
-}:any) => {
+}:ListProps) => {
   return (
     <View style={listContainerStyle}>
       <ListItems
         leftElement={
           leftElement || 
             <Image
-              style={rightImageStyle || { width: 20, height: 20 }}
+              style={leftImageStyle || { width: 20, height: 20 }}
               source={{uri:('https://image.flaticon.com/icons/png/512/55/55089.png'|| leftImage)}}
               resizeMode="contain"
             />
@@ -175,11 +197,10 @@ const List = ({
         textStyle={textStyle}
         rightElement={
           items &&
-          (rightElement || 
-            <View style={rightImageWrapperStyle || rightElementWrapperStyle || styles.rightElementWrapperStyle}>
+          (<View style={rightImageWrapperStyle || rightElementWrapperStyle || styles.rightElementWrapperStyle}>
               {rightElement || 
               <Image
-                style={leftImageStyle || { width: 15, height: 15 }}
+                style={rightImageStyle || { width: 15, height: 15 }}
                 source={{uri:('http://www.pngmart.com/files/3/Down-Arrow-PNG-HD.png' || rightImage)}}
                 resizeMode="contain"
               />

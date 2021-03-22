@@ -7,7 +7,7 @@ type ListItemProps = {
   leftElement:Element,
   text:string,
   textStyle:TextStyle,
-  rightElement:ImageSourcePropType,
+  rightElement:Element,
   rightElementWrapperStyle?:ViewStyle,
 }
 
