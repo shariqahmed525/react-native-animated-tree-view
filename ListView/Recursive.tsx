@@ -1,15 +1,39 @@
-import React, { useState } from 'react';
+import React, { CSSProperties, useState } from 'react';
 import {
   View,
   ScrollView,
   UIManager,
   LayoutAnimation,
   StyleSheet,
+  ViewStyle,
+  Image,
+  ViewProps,
+  ImageSourcePropType,
+  ImageStyle,
+  TextStyle,
 } from 'react-native';
 import ListItems from './ListItems';
-import PropTypes from 'prop-types';
 
-export default Apps = props => {
+export type TreeNode = {
+  value:string,
+  name:string,
+  items?:TreeNode[],
+  onPress?:any,
+}
+
+type TreeViewProps = {
+  containerStyle?:ViewStyle,
+  listContainerStyle?:CSSProperties,
+  listItemStyle?:CSSProperties,
+  data:TreeNode[],
+  displayNodeName?:string,
+  childrenNodeName?:string,
+  onClick?:Function,
+  onPress?:Function,
+  rest?:any,
+}
+
+export default function TreeView(props:TreeViewProps) {
   const [selectedOptions, setSelectedOptions] = useState({});
 
   UIManager.setLayoutAnimationEnabledExperimental &&
@@ -27,7 +51,8 @@ export default Apps = props => {
   let dNN = displayNodeName ? displayNodeName : 'name';
   let cNN = childrenNodeName ? childrenNodeName : 'items';
 
-  const selectAccountFunc = (selectedOptions, option) => {
+  const selectAccountFunc = (selectedOptions:any, option:any) => {
+    props.onPress && props.onPress(option);
     if (option[cNN]) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setSelectedOptions({ ...selectedOptions });
@@ -60,9 +85,9 @@ const OptionsList = ({
   onChange,
   listContainerStyle,
   ...rest
-}) => {
+}:any) => {
   const { displayNodeName, childrenNodeName } = rest;
-  const handleParentClicked = option => {
+  const handleParentClicked = (option:any) => {
     if (selectedOptions[option.value]) {
       delete selectedOptions[option.value];
     } else {
@@ -71,14 +96,14 @@ const OptionsList = ({
     onChange(selectedOptions, option);
   };
 
-  const handleSubOptionsListChange = (subSelections, option) => {
+  const handleSubOptionsListChange = (subSelections:any, option:any) => {
     selectedOptions[option.value] = subSelections;
     onChange(selectedOptions, option);
   };
 
   return (
     <View>
-      {options.map((option, k) => (
+      {options.map((option:any, k:any) => (
         <View key={k} style={{ ...listContainerStyle }}>
           <List
             index={k}
@@ -102,7 +127,7 @@ const OptionsList = ({
                 <OptionsList
                   options={option[childrenNodeName]}
                   selectedOptions={selectedOptions[option.value]}
-                  onChange={(subSelections, opt) => {
+                  onChange={(subSelections:any, opt:any) => {
                     handleSubOptionsListChange(subSelections, opt);
                   }}
                   listContainerStyle={{
@@ -118,6 +143,24 @@ const OptionsList = ({
   );
 };
 
+type ListProps = {
+  selected:boolean,
+  label:string,
+  onChange:Function,
+  items:TreeNode[],
+  value:any,
+  listContainerStyle:ViewProps,
+  rightElement:Element,
+  rightElementWrapperStyle:ViewStyle,
+  leftElement:Element,
+  listItemStyle:CSSProperties,
+  textStyle:TextStyle,
+  rightImage:ImageSourcePropType,
+  rightImageStyle:ImageStyle,
+  rightImageWrapperStyle:ViewStyle,
+  leftImageStyle:ImageStyle,
+  leftImage:ImageSourcePropType,
+}
 // Dumb List component, completly controlled by parent
 const List = ({
   selected,
@@ -126,34 +169,44 @@ const List = ({
   items,
   value,
   listContainerStyle,
+  rightElement,
+  rightElementWrapperStyle,
+  leftElement,
+  listItemStyle,
+  textStyle,
   rightImage,
   rightImageStyle,
   rightImageWrapperStyle,
   leftImageStyle,
   leftImage,
-  listItemStyle,
-  textStyle,
-}) => {
+}:ListProps) => {
   return (
     <View style={listContainerStyle}>
       <ListItems
-        leftImage={
-          leftImage || {
-            uri: 'https://image.flaticon.com/icons/png/512/55/55089.png',
-          }
+        leftElement={
+          leftElement || 
+            <Image
+              style={leftImageStyle || { width: 20, height: 20 }}
+              source={{uri:('https://image.flaticon.com/icons/png/512/55/55089.png'|| leftImage)}}
+              resizeMode="contain"
+            />
         }
         onPress={() => onChange(!selected, label, value, items)}
         text={label}
-        rightImageStyle={rightImageStyle}
-        rightImageWrapperStyle={rightImageWrapperStyle}
-        leftImageStyle={leftImageStyle}
         listItemStyle={{ ...listItemStyle }}
         textStyle={textStyle}
-        rightImage={
+        rightElement={
           items &&
-          (rightImage || {
-            uri: 'http://www.pngmart.com/files/3/Down-Arrow-PNG-HD.png',
-          })
+          (<View style={rightImageWrapperStyle || rightElementWrapperStyle || styles.rightElementWrapperStyle}>
+              {rightElement || 
+              <Image
+                style={rightImageStyle || { width: 15, height: 15 }}
+                source={{uri:('http://www.pngmart.com/files/3/Down-Arrow-PNG-HD.png' || rightImage)}}
+                resizeMode="contain"
+              />
+              }
+            </View>
+            )
         }
       />
     </View>
@@ -176,8 +229,9 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     flex: 1,
   },
+  rightElementWrapperStyle: {
+    alignItems: "flex-end",
+    flex: 1,
+    paddingRight: 10
+  }
 });
-
-Apps.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.any).isRequired,
-};
